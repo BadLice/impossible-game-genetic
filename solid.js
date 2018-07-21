@@ -34,7 +34,7 @@ class Solid extends Blink
         case 7:
         case 6:
         case 2:
-          if (x + w / 2 >= this.x)
+          if (x + (w / 2) >= this.x)
           {
             return true;
           }

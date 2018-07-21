@@ -141,6 +141,11 @@ class Tile
     return result;
   }
 
+  collision(x, y, w, h)
+  {
+    return (this.collisionRight(x, y, w, h) || this.collisionLeft(x, y, w, h) || this.collisionUp(x, y, w, h) || this.collisionDown(x, y, w, h));
+  }
+
   configMap()
   {
     var x;
