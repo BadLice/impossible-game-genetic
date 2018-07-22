@@ -1,13 +1,14 @@
 class Enemy
 {
-  constructor(x, y, r, dir, tile)
+  constructor(x, y, r, dir, speed, tile)
   {
     this.x = x;
     this.y = y;
     this.r = r;
     this.dir = dir;
     this.tile = tile;
-    this.speed = 5;
+    this.speed = speed;
+    this.updateTilesCoordinates();
   }
 
   update()
@@ -15,7 +16,8 @@ class Enemy
 
     for (var i = 0; i < this.speed; i++)
     {
-      if (this.tile.collision(this.x, this.y, this.r * 2, this.r * 2))
+      this.updateTilesCoordinates();
+      if (this.tile.collisionLeft(this.x, this.y, this.r * 2, this.r * 2, this.tileX, this.tileY) || this.tile.collisionRight(this.x, this.y, this.r * 2, this.r * 2, this.tileX, this.tileY))
       {
         this.dir *= -1
       }
@@ -28,9 +30,28 @@ class Enemy
 
   collision(x, y, w, h)
   {
-    // console.log(x >= this.x - (w / 2));
-    // console.log((x >= this.x - (w / 2) && x <= this.x + (w / 2) && y >= this.y - (h / 2) && y <= this.y + (h / 2)));
     return (x >= this.x - (w / 2) && x <= this.x + (w / 2) && y >= this.y - (h / 2) && y <= this.y + (h / 2));
+  }
+
+  tileCoordinates()
+  {
+    for (var y = 0; y < sqrt(this.tile.nTiles); y++)
+    {
+      for (var x = 0; x < sqrt(this.tile.nTiles); x++)
+      {
+        if (this.x >= this.tile.tiles[y][x].x - this.tile.tiles[y][x].w && this.x < this.tile.tiles[y][x].x && this.y < this.tile.tiles[y][x].y + (this.tile.tiles[y][x].h) && this.y >= this.tile.tiles[y][x].y)
+        {
+          return [x, y];
+        }
+      }
+    }
+  }
+
+  updateTilesCoordinates()
+  {
+    var tileCoord = this.tileCoordinates();
+    this.tileX = tileCoord[0];
+    this.tileY = tileCoord[1];
   }
 
   draw()

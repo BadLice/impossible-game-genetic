@@ -7,7 +7,8 @@ class Player
     this.w = w;
     this.h = h;
     this.tile = tile;
-    this.speed = 10;
+    this.speed = 3;
+    this.updateTilesCoordinates();
 
     this.cicles = 0;
     this.fitness = 0;
@@ -20,20 +21,25 @@ class Player
     {
       this.dna = [];
 
-      for (var i = 0; i < maxMoves; i++)
+      for (var i = 0; i < 30; i++)
       {
         this.dna.push(floor(random(0, 8)));
       }
     }
     else
     {
+      // console.log(childDNA.length);
       this.dna = childDNA;
-      if (this.dna.length < maxMoves)
+      // console.log("len= " + (maxMoves));
+      if (maxMoves)
       {
-        for (var i = maxMoves - this.dna.length; i < maxMoves; i++)
+        // var c = 0;
+        for (var i = 0; i < 5; i++)
         {
           this.dna.push(floor(random(0, 8)));
+          // c++;
         }
+        // console.log(c);
       }
     }
 
@@ -46,27 +52,36 @@ class Player
     this.calculateFitness();
   }
 
+  updateTilesCoordinates()
+  {
+    var tileCoord = this.tileCoordinates();
+    this.tileX = tileCoord[0];
+    this.tileY = tileCoord[1];
+
+    // console.log(tileCoord)
+  }
+
   edgesLeft()
   {
     // console.log(this.tile.collisionLeft(this.x, this.y, this.w, this.h));
-    return this.tile.collisionLeft(this.x, this.y, this.w, this.h);
+    return this.tile.collisionLeft(this.x, this.y, this.w, this.h, this.tileX, this.tileY);
   }
 
   edgesRight()
   {
     // console.log(this.tile.collisionLeft(this.x, this.y, this.w, this.h));
-    return this.tile.collisionRight(this.x, this.y, this.w, this.h);
+    return this.tile.collisionRight(this.x, this.y, this.w, this.h, this.tileX, this.tileY);
   }
 
   edgesDown()
   {
     // console.log(this.tile.collisionLeft(this.x, this.y, this.w, this.h));
-    return this.tile.collisionDown(this.x, this.y, this.w, this.h);
+    return this.tile.collisionDown(this.x, this.y, this.w, this.h, this.tileX, this.tileY);
   }
 
   edgesUp()
   {
-    return this.tile.collisionUp(this.x, this.y, this.w, this.h);
+    return this.tile.collisionUp(this.x, this.y, this.w, this.h, this.tileX, this.tileY);
   }
 
   move()
@@ -84,6 +99,7 @@ class Player
             this.finished = true;
         }
 
+        this.updateTilesCoordinates();
         var edgesLeft = this.edgesLeft();
         var edgesRight = this.edgesRight();
         var edgesDown = this.edgesDown();
@@ -166,9 +182,24 @@ class Player
     return coll;
   }
 
+  tileCoordinates()
+  {
+    for (var y = 0; y < sqrt(this.tile.nTiles); y++)
+    {
+      for (var x = 0; x < sqrt(this.tile.nTiles); x++)
+      {
+        if (this.x >= this.tile.tiles[y][x].x - this.tile.tiles[y][x].w && this.x < this.tile.tiles[y][x].x && this.y < this.tile.tiles[y][x].y + (this.tile.tiles[y][x].h) && this.y >= this.tile.tiles[y][x].y)
+        {
+          return [x, y];
+        }
+      }
+    }
+  }
+
   crossover(partner)
   {
     var r = random(0, this.dna.length)
+    // console.log(partner.dna.length);
     var dna = [];
     for (var i = 0; i < this.dna.length; i++)
     {
@@ -177,8 +208,7 @@ class Player
       else
         dna[i] = partner.dna[i];
     }
-
-    return dna
+    return dna;
   }
 
   mutate(mr)
@@ -202,7 +232,7 @@ class Player
     if (this.x < 500)
       fit = map(1 / dist(this.x, this.y, 500, 400), 0, width / 2, 0, 1) * 100;
     else
-      fit = map(1 / dist(this.x, this.y, 820, 280), 0, width / 2, 0, 1) * 1000;
+      fit = map(1 / dist(this.x, this.y, 820, 280), 0, width / 2, 0, 1) * 100000;
 
     if (dist(this.x, this.y, 820, 280) < 60)
     {

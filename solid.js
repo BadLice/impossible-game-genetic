@@ -8,76 +8,66 @@ class Solid extends Blink
 
   collisionLeft(x, y, w, h)
   {
-    if (this.isIntoTile(x, y, w, h))
+    switch (this.rot)
     {
-      switch (this.rot)
-      {
-        case 8:
-        case 5:
-        case 1:
-          if (x - (w / 2) <= this.x - this.w)
-          {
-            return true;
-          }
-          break;
-      }
+      case 8:
+      case 5:
+      case 1:
+        if (x - (w / 2) <= this.x - this.w)
+        {
+          return true;
+        }
+        break;
     }
     return false;
   }
 
   collisionRight(x, y, w, h)
   {
-    if (this.isIntoTile(x, y, w, h))
+    switch (this.rot)
     {
-      switch (this.rot)
-      {
-        case 7:
-        case 6:
-        case 2:
-          if (x + (w / 2) >= this.x)
-          {
-            return true;
-          }
-          break;
-      }
+      case 7:
+      case 6:
+      case 2:
+        if (x + (w / 2) >= this.x)
+        {
+          return true;
+        }
+        break;
     }
+
     return false;
   }
 
   collisionDown(x, y, w, h)
   {
-    if (this.isIntoTile(x, y, w, h))
+    switch (this.rot)
     {
-      switch (this.rot)
-      {
-        case 8:
-        case 7:
-        case 3:
-          if (y + h / 2 >= this.y + this.h)
-          {
-            return true;
-          }
-          break;
-      }
+      case 8:
+      case 7:
+      case 3:
+        if (y + h / 2 >= this.y + this.h)
+        {
+          return true;
+        }
+        break;
     }
     return false;
   }
 
   collisionUp(x, y, w, h)
   {
-    if (this.isIntoTile(x, y, w, h))
+
+    switch (this.rot)
     {
-      switch (this.rot)
-      {
-        case 6:
-        case 5:
-        case 4:
-          if (y - h / 2 <= this.y)
-          {
-            return true;
-          }
-          break;
-      }
+      case 6:
+      case 5:
+      case 4:
+        if (y - h / 2 <= this.y)
+        {
+          return true;
+        }
+        break;
     }
     return false;
   }
@@ -86,6 +76,7 @@ class Solid extends Blink
   isIntoTile(x, y)
   {
     return (x >= this.x - this.w && x < this.x && y < this.y + (this.h) && y >= this.y);
+    return true;
   }
 
   draw(color)

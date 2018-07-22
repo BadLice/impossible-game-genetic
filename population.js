@@ -3,13 +3,13 @@ class Population
   constructor(tile, mutationRate, maxPop)
   {
     this.population = [];
-    this.generation = 0;
+    this.generation = 1;
     this.mutationRate = mutationRate;
     this.finished = false;
     this.toUpdate = false;
     this.velocity = 1;
     this.tile = tile;
-    this.maxMoves = 30;
+    this.maxMoves = false;
 
     for (var i = 0; i < maxPop; i++)
     {
@@ -36,7 +36,12 @@ class Population
     if (this.finishedGeneration())
     {
       if (this.generation % 5 == 0)
-        this.maxMoves += 5;
+      {
+        this.maxMoves = true;
+        // console.log("add= " + this.maxMoves);
+      }
+      else
+        this.maxMoves = false;
 
       var newPop = []
       for (var i = 0; i < this.population.length; i++)
@@ -46,6 +51,8 @@ class Population
 
         var parent1 = this.pickOne();
         var parent2 = this.pickOne();
+        // noLoop();
+        // console.log(parent1.dna.length)
 
         var childDNA = parent1.crossover(parent2);
 
@@ -58,6 +65,7 @@ class Population
       }
       this.population = newPop;
       this.generation++;
+      initEnemies();
     }
   }
 

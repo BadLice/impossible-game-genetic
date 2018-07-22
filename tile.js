@@ -61,89 +61,38 @@ class Tile
     }
   }
 
-  collisionLeft(x, y, w, h)
+  collisionLeft(x, y, w, h, tileX, tileY)
   {
-    var result = false;
-    for (var i = 0; i < sqrt(this.nTiles); i++)
-    {
-      for (var j = 0; j < sqrt(this.nTiles); j++)
-      {
-        if (this.tiles[i][j] instanceof Solid)
-        {
-          if ((this.tiles[i][j].rot === 1 || this.tiles[i][j].rot === 5 || this.tiles[i][j].rot === 8) && this.tiles[i][j].collisionLeft(x, y, w, h))
-          {
-            result = true;
-            break;
-          }
-        }
-      }
-    }
-    return result;
+
+    return ((this.tiles[tileY][tileX].rot === 1 || this.tiles[tileY][tileX].rot === 5 || this.tiles[tileY][tileX].rot === 8) && this.tiles[tileY][tileX].collisionLeft(x, y, w, h))
   }
 
-  collisionRight(x, y, w, h)
+
+
+  collisionRight(x, y, w, h, tileX, tileY)
   {
-    var result = false;
-    for (var i = 0; i < sqrt(this.nTiles); i++)
-    {
-      for (var j = 0; j < sqrt(this.nTiles); j++)
-      {
-        if (this.tiles[i][j] instanceof Solid)
-        {
-          if ((this.tiles[i][j].rot === 2 || this.tiles[i][j].rot === 6 || this.tiles[i][j].rot === 7) && this.tiles[i][j].collisionRight(x, y, w, h))
-          {
-            result = true;
-            break;
-          }
-        }
-      }
-    }
-    return result;
+    return ((this.tiles[tileY][tileX].rot === 2 || this.tiles[tileY][tileX].rot === 6 || this.tiles[tileY][tileX].rot === 7) && this.tiles[tileY][tileX].collisionRight(x, y, w, h))
+
   }
 
-  collisionDown(x, y, w, h)
+
+  collisionDown(x, y, w, h, tileX, tileY)
   {
-    var result = false;
-    for (var i = 0; i < sqrt(this.nTiles); i++)
-    {
-      for (var j = 0; j < sqrt(this.nTiles); j++)
-      {
-        if (this.tiles[i][j] instanceof Solid)
-        {
-          if ((this.tiles[i][j].rot === 3 || this.tiles[i][j].rot === 7 || this.tiles[i][j].rot === 8) && this.tiles[i][j].collisionDown(x, y, w, h))
-          {
-            result = true;
-            break;
-          }
-        }
-      }
-    }
-    return result;
+
+    return ((this.tiles[tileY][tileX].rot === 3 || this.tiles[tileY][tileX].rot === 7 || this.tiles[tileY][tileX].rot === 8) && this.tiles[tileY][tileX].collisionDown(x, y, w, h))
+
   }
 
-  collisionUp(x, y, w, h)
+  collisionUp(x, y, w, h, tileX, tileY)
   {
-    var result = false;
-    for (var i = 0; i < sqrt(this.nTiles); i++)
-    {
-      for (var j = 0; j < sqrt(this.nTiles); j++)
-      {
-        if (this.tiles[i][j] instanceof Solid)
-        {
-          if ((this.tiles[i][j].rot === 4 || this.tiles[i][j].rot === 5 || this.tiles[i][j].rot === 6) && this.tiles[i][j].collisionUp(x, y, w, h))
-          {
-            result = true;
-            break;
-          }
-        }
-      }
-    }
-    return result;
+
+    return ((this.tiles[tileY][tileX].rot === 4 || this.tiles[tileY][tileX].rot === 5 || this.tiles[tileY][tileX].rot === 6) && this.tiles[tileY][tileX].collisionUp(x, y, w, h))
+
   }
 
-  collision(x, y, w, h)
+  collision(x, y, w, h, tileX, tileY)
   {
-    return (this.collisionRight(x, y, w, h) || this.collisionLeft(x, y, w, h) || this.collisionUp(x, y, w, h) || this.collisionDown(x, y, w, h));
+    return (this.collisionRight(x, y, w, h, tileX, tileY) || this.collisionLeft(x, y, w, h, tileX, tileY) || this.collisionUp(x, y, w, h, tileX, tileY) || this.collisionDown(x, y, w, h, tileX, tileY));
   }
 
   configMap()
